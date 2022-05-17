@@ -35,17 +35,13 @@ class PlayerMainWindow(QWidget):
         mainLayout = QHBoxLayout()
         self.setLayout(mainLayout)
         openFolderButton = QPushButton(QIcon("images/folder_icon.png"), "打开文件夹", clicked=self.openFolder)
-        # openFolderButton.clicked.connect()
         openFolderButton.setFixedWidth(110)
         mainLayout.addWidget(openFolderButton)
 
     def openFolder(self):
         """打开文件夹"""
-        # print("点击了打开文件夹")
         # 选择文件夹
         dirPath = QFileDialog.getExistingDirectory(parent=self)
-        # print(dirPath)
-        # print(repr(dirPath))
         # 如果用户没有选择文件夹，不做处理
         if not dirPath:
             return
@@ -60,5 +56,5 @@ class PlayerMainWindow(QWidget):
             imagePath = os.path.realpath(os.path.join(dirPath, filename))
             allImagePaths.append(imagePath)
 
-        print(filenameList)
+        # print(filenameList)
         print(allImagePaths)
