@@ -10,6 +10,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QFileDialog
 
+from player_window import PlayerWindow
+
 
 class PlayerMainWindow(QWidget):
     """播放器主窗口"""
@@ -20,6 +22,7 @@ class PlayerMainWindow(QWidget):
         """初始化"""
         super().__init__()
         self.initUI()
+        self.playerWindow = PlayerWindow(self)
 
     def initUI(self):
         """初始化UI"""
@@ -57,4 +60,5 @@ class PlayerMainWindow(QWidget):
             allImagePaths.append(imagePath)
 
         # print(filenameList)
-        print(allImagePaths)
+        # print(allImagePaths)
+        self.playerWindow.play(allImagePaths)
