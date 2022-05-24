@@ -5,7 +5,7 @@
 @version: v1.0
 """
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QKeyEvent
 from PyQt6.QtWidgets import QLabel
 
 
@@ -25,6 +25,21 @@ class PlayerWindow(QLabel):
         self.timer = QTimer(parent=self, timeout=self.playNextImage)
         self.timer.setInterval(3000)
         # self.timer.timeout.connect()
+        # 设置图片背景
+        self.setObjectName("playerWindow")
+        self.setStyleSheet("#playerWindow { background-color: #1e1e21; }")
+
+    def keyPressEvent(self, keyEvent: QKeyEvent):
+        """键盘按下事件"""
+        if keyEvent.key() == Qt.Key.Key_Escape:
+            # 用户按ESC键 退出播放
+            self.stop()
+        elif keyEvent.key() == Qt.Key.Key_Space:
+            # 如果正在播放，则暂停播放，否则继续播放
+            if self.timer.isActive():
+                self.pause()
+            else:
+                self.resume()
 
     def play(self, allImagePaths: list):
         """播放图片"""
@@ -56,5 +71,13 @@ class PlayerWindow(QLabel):
         self.timer.stop()
         self.hide()
         self.playerMainWindow.show()
+
+    def pause(self):
+        """暂停播放"""
+        self.timer.stop()
+
+    def resume(self):
+        """继续播放"""
+        self.timer.start()
 
 
