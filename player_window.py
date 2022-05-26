@@ -6,7 +6,7 @@
 """
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QKeyEvent
-from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QLabel, QHBoxLayout
 
 
 class PlayerWindow(QLabel):
@@ -28,6 +28,18 @@ class PlayerWindow(QLabel):
         # 设置图片背景
         self.setObjectName("playerWindow")
         self.setStyleSheet("#playerWindow { background-color: #1e1e21; }")
+        # 播放器 暂停播放、继续播放提示
+        self.tipLabel = QLabel()
+        tipLabelWidth = tipLabelHeight = 50
+        self.tipLabel.setFixedSize(tipLabelWidth, tipLabelHeight)
+        self.tipLabel.hide()
+        mainLayout = QHBoxLayout()
+        self.setLayout(mainLayout)
+        mainLayout.addWidget(self.tipLabel)
+
+        self.pauseTipPixmap = QPixmap("images/pause_tip.png").scaled(tipLabelWidth, tipLabelHeight)
+        self.playTipPixmap = QPixmap("images/play_tip.png").scaled(tipLabelWidth, tipLabelHeight)
+
 
     def keyPressEvent(self, keyEvent: QKeyEvent):
         """键盘按下事件"""
@@ -43,7 +55,7 @@ class PlayerWindow(QLabel):
 
     def play(self, allImagePaths: list):
         """播放图片"""
-        print("正在播放图片...")
+        # print("正在播放图片...")
         self.allImagePaths = iter(allImagePaths)
         # 调试 实现播放第一张图片
         # pixmap = QPixmap(allImagePaths[0]).scaled(self.screenSize, Qt.AspectRatioMode.KeepAspectRatio)
@@ -75,9 +87,17 @@ class PlayerWindow(QLabel):
     def pause(self):
         """暂停播放"""
         self.timer.stop()
+        # 显示暂停提示 并在1秒自动隐藏
+        self.tipLabel.setPixmap(self.pauseTipPixmap)
+        self.tipLabel.show()
+        QTimer.singleShot(1000, self.tipLabel.hide)
 
     def resume(self):
         """继续播放"""
         self.timer.start()
+        # 显示播放提示 并在1秒自动隐藏
+        self.tipLabel.setPixmap(self.playTipPixmap)
+        self.tipLabel.show()
+        QTimer.singleShot(1000, self.tipLabel.hide)
 
 
