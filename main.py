@@ -15,3 +15,18 @@ if __name__ == '__main__':
     mainWindow.show()
     # 进入消息循环
     app.exec()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# pyinstaller --name 图片播放器 --icon images/window_icon.png --noconsole --add-data images;images main.py
